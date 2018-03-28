@@ -1,0 +1,850 @@
+<html dir="ltr" lang="pt-br">
+
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- CSS
+	============================================= -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Título -->
+    <title>Quiz</title>
+
+    <style>
+        .caixaQuiz {
+            height: 500px;
+            animation-duration: 1.5s;
+            opacity: 1;
+            border: 10px solid #004e74;
+        }
+
+        html {
+            width: 650px;
+            height: 500px;
+            margin: 25px auto;
+        }
+
+        .orcamento {
+            position: relative;
+            top: -28%;
+            display: none;
+            font-size: 37px;
+            font-weight: bolder;
+            color: #004e74;
+            cursor: default;
+        }
+
+        p {
+            margin-bottom: 58px;
+        }
+
+        #perguntaFim {
+            margin-top: 65px;
+            text-align: center;
+        }
+
+        #pergunta2,
+        #pergunta3,
+        #pergunta4,
+        #pergunta5,
+        #pergunta6,
+        #pergunta7,
+        #pergunta8,
+        #pergunta9,
+        #perguntaFim,
+        #pergunta10,
+        #pergunta11,
+        #pergunta12,
+        #pergunta13,
+        #pergunta14,
+        #pergunta15 {
+            display: none;
+        }
+
+        ul,
+        li {
+            margin-left: -250px;
+            margin-top: -11px;
+        }
+
+        span {
+            white-space: nowrap;
+            position: relative;
+            left: 132%;
+            font-size: initial;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: -30px;
+            color: #004e74;
+        }
+
+        input,
+        button,
+        submit {
+            border: none;
+        }
+        /* .quadradoResposta */
+
+        .quadradoResposta {
+            width: 20px;
+            position: relative;
+            margin: 20px auto;
+        }
+
+        .quadradoResposta label {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 25px;
+            left: 0;
+            background: -webkit-linear-gradient(top, #222222 0%, #45484d 100%);
+            background: linear-gradient(to bottom, #222222 0%, #45484d 100%);
+            border-radius: 4px;
+            box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.4);
+        }
+
+        .quadradoResposta label:after {
+            content: '';
+            width: 16px;
+            height: 9px;
+            position: absolute;
+            top: 4px;
+            left: 2px;
+            border: 3px solid #fcfff4;
+            border-top: none;
+            border-right: none;
+            background: transparent;
+            opacity: 0;
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+        .quadradoResposta label:hover::after {
+            opacity: 0.3;
+        }
+
+        .quadradoResposta input[type=checkbox] {
+            visibility: hidden;
+        }
+
+        .quadradoResposta input[type=checkbox]:checked + label:after {
+            opacity: 1;
+        }
+        /* end .quadradoResposta */
+
+        .heading-block:after {
+            content: '';
+            display: block;
+            margin-top: 30px;
+            width: 40px;
+            border-top: 0px solid #444;
+        }
+
+        body.stretched #header.full-header .container {
+            background-color: #004e74;
+        }
+
+        .content-wrap {
+            margin-top: -30px;
+        }
+
+        #content {
+            height: 450px;
+            animation-duration: 1.5s;
+            opacity: 1;
+        }
+
+        #wrapper {
+            height: 500px;
+            animation-duration: 1.5s;
+            opacity: 1;
+        }
+
+        .bs-example {
+            margin: 20px;
+        }
+
+        @media screen and (max-width: 414px) {
+            .contd {
+                margin-top: -40px !important;
+                margin-left: 39% !important;
+                height: 95px !important;
+            }
+            .mobi {
+                width: 369px !important;
+                padding: 0 !important;
+                height: 400px !important;
+            }
+            #wrapper {
+                margin: 0 auto !important;
+                width: 400px !important;
+                height: 444px !important;
+                margin-left: 10px !important;
+            }
+            ul,
+            li {
+                margin-left: -165px !important;
+                margin-top: -14px !important;
+                ;
+            }
+            .logoIntegral {
+                margin-left: 6px !important;
+                margin-top: -62px !important;
+            }
+            .bs-example {
+                margin: 20px;
+            }
+            .wizard {
+                display: inline-block !important;
+                height: 0px !important;
+                line-height: 34px !important;
+                font-size: 18px !important;
+                margin-left: -1px !important;
+                font-size: 10px !important;
+                padding: 0px 9px 37px !important;
+            }
+        }
+
+        .wizard {
+            display: inline-block;
+            /* background-color: gray; */
+            height: 50px;
+            text-align: center;
+            /* width: 100%; */
+            background-color: #004e744d;
+            line-height: 50px;
+            font-size: 18px;
+            color: #FFF;
+            /* float: left; */
+            /* text-align: center; */
+            margin-left: 2%;
+            font-size: 16px;
+            padding: 0px 14px 51px;
+            border-radius: 16px
+        }
+    </style>
+
+</head>
+<script>
+    var RISCO = 0;
+    var TAMANHO = 0;
+
+    function setRsico(risc) {
+        RISCO = risc;
+        console.log("Risco :" + RISCO);
+    }
+
+    function setTamanho() {
+        TAMANHO = TAMANHO + 1;
+        console.log("TAMANHO :" + TAMANHO);
+    }
+
+    function numplanoo() {
+        if (parseInt(RISCO) == 1) {
+            return 1;
+        } else if (RISCO == 2) {
+            return 2;
+        } else if (RISCO >= 3) {
+            return 3;
+        }
+
+    }
+
+    function setbar(i) {
+
+        $(".progress-bar").css("width", i + "%").text(i + " %");
+        if (i == 100) {
+
+            document.getElementById('loaaaaaaaaddddddd').src = "countdown.html";
+
+            send();
+
+            var millisecondsToWait = 7000;
+            setTimeout(function() {
+                callhalo();
+            }, millisecondsToWait);
+
+        }
+    }
+
+    function callhalo() {
+
+        window.parent.sha(numplanoo());
+    }
+
+    function send() {
+
+        var array = response.split(',');
+        for (a in array) {
+
+            if (array[a] === undefined || typeof array[a] === 'undefined' || array[a] === 'undefined') {} else {
+                ajax(array[a]);
+            }
+
+        }
+    }
+
+    function ajax(risc) {
+
+        $.ajax({
+            url: 'cliente/t2.php',
+            type: 'POST',
+            data: {
+                1: '<?php echo $user['
+                email '];?>',
+                2: risc
+            }
+        });
+
+    }
+</script>
+
+<body class="stretched">
+
+    <!-- Document Wrapper
+	============================================= -->
+    <div id="wrapper" class="clearfix caixaQuiz">
+
+        <!-- Content
+		============================================= -->
+        <section id="content" style="margin-bottom: 0px;margin: 20px auto; width: 99%;" class="mobi">
+            <div id="0001" style="background-color: #004e74;" class="wizard">------ Categoria 1 ------</div>
+            <div id="0002" class="wizard">------ Categoria 2 ------</div>
+            <div id="0003" class="wizard">------ Categoria 3 ------</div>
+            <!-- <div class="bs-example">
+		<div class="progress progress-striped active" style="margin-top:-10px">
+				<div id="bar" class="progress-bar" style="width: 0%;">
+
+				</div>
+		</div>
+</div> -->
+            <div id="pergunta1">
+                <h3>Pergunta 1 ?</h3>
+                <ul>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaDoisResidencia(); setbar(10); setRsico(1);" type="checkbox" value="None" id="residencia" name="check" />
+                            <label for="residencia"></label>
+                            <span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaDoisEmpresa();setbar(5);setRsico(2);" type="checkbox" value="None" id="empresa" name="check" />
+                            <label for="empresa"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="pergunta2">
+                <h3>Pergunta 2?</h3>
+                <ul>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaTresApartamento();setbar(20)" type="checkbox" value="None" id="apartamento" name="check" />
+                            <label for="apartamento"></label>
+                            <span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaTresCasa();setbar(20)" type="checkbox" value="None" id="casa" name="check" />
+                            <label for="casa"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaUm(); setbar(1)"> &lt; &lt; Voltar</a><span>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div id="pergunta3">
+					<h3>Pergunta 3?</h3>
+					<ul>
+						<li>
+							<div class="quadradoResposta">
+								<input onclick="chamaPerguntaQuatroHabitual();setbar(30)" type="checkbox" value="None" id="habitual" name="check"  />
+								<label for="habitual"></label>
+								<span>Resposta 1</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaQuatroSegunda();setbar(30);" type="checkbox" value="None" id="segunda" name="check" />
+                            <label for="segunda"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaDois();setbar(20)"> &lt; &lt; Voltar</a><span>
+								</div>
+							</li>
+						</ul>
+					</div>
+
+					<div id="pergunta4">
+						<h3>Pergunta 4?</h3>
+						<ul>
+							<li>
+								<div class="quadradoResposta">
+									<input onclick="chamaPerguntaCincoDentro();setbar(40)" type="checkbox" value="None" id="dentro" name="check"  />
+									<label for="dentro"></label>
+									<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaCincoFora();setbar(40)" type="checkbox" value="None" id="fora" name="check" />
+                            <label for="fora"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaTres();setbar(30)"> &lt; &lt; Voltar</a><span>
+									</div>
+								</li>
+							</ul>
+						</div>
+
+						<div id="pergunta5">
+							<h3>Pergunta 5?</h3>
+							<ul>
+								<li>
+									<div class="quadradoResposta">
+										<input onclick="chamaPerguntaSeisApe();setbar(50)" type="checkbox" value="None" id="ape" name="check"  />
+										<label for="ape"></label>
+										<span>Resposta 1</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaSeisVigiada();setbar(50)" type="checkbox" value="None" id="vigiada" name="check" />
+                            <label for="vigiada"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaSeisNaoVigiada();setbar(50);" type="checkbox" value="None" id="naovigiada" name="check" />
+                            <label for="naovigiada"></label>
+                            <span>Resposta 3</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaQuatro();setbar(40)"> &lt; &lt; Voltar</a><span>
+										</div>
+									</li>
+
+								</ul>
+							</div>
+
+							<div id="pergunta6">
+								<h3>Pergunta 6?</h3>
+								<ul>
+									<li>
+										<div class="quadradoResposta">
+											<input onclick="chamaPerguntaSeteJardimTerreno();setbar(60)" type="checkbox" value="None" id="jardimterreno" name="check"  />
+											<label for="jardimterreno"></label>
+											<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaSeteVarandaTerraco();setbar(60)" type="checkbox" value="None" id="varandaterraco" name="check" />
+                            <label for="varandaterraco"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaSeteNaoPossui();setbar(70)" type="checkbox" value="None" id="naopossui" name="check" />
+                            <label for="naopossui"></label>
+                            <span>Resposta 3</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaCinco();setbar(50)"> &lt; &lt; Voltar</a><span>
+											</div>
+										</li>
+									</ul>
+								</div>
+
+								<div id="pergunta7">
+									<h3>Pergunta 7?</h3>
+									<ul>
+										<li>
+											<div class="quadradoResposta">
+												<input onclick="chamaPerguntaOitoSimPerguntaSete(); $('#0001').css('background-color','background-color: #b9cad5;');
+												$('#0002').css('background-color','background-color: #004e74;');setbar(80);" type="checkbox" value="None" id="simpergunta7" name="check"  />
+												<label for="simpergunta7"></label>
+												<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaOitoNaoPerguntaSete(); $('#0001').css('background-color','background-color: #b9cad5;');
+												$('#0002').css('background-color','background-color: #004e74;');setbar(80);setRsico(1);" type="checkbox" value="None" id="naopergunta7" name="check" />
+                            <label for="naopergunta7"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaSeis(); $('#0002').css('background-color','background-color: #b9cad5;');
+												$('#0001').css('background-color','background-color: #004e74;');;setbar(70)"> &lt; &lt; Voltar</a><span>
+												</div>
+											</li>
+										</ul>
+									</div>
+
+									<div id="pergunta8">
+										<h3>Pergunta 8?</h3>
+										<ul>
+											<li>
+												<div class="quadradoResposta">
+													<input onclick="chamaPerguntaNoveSempreHaAlguem();setbar(90)" type="checkbox" value="None" id="semprehaalguem" name="check"  />
+													<label for="semprehaalguem"></label>
+													<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaNoveMenosDuasHoras();setbar(90)" type="checkbox" value="None" id="menosduashoras" name="check" />
+                            <label for="menosduashoras"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaNoveEntreQuaseCinco();setbar(90)" type="checkbox" value="None" id="entreduasecinco" name="check" />
+                            <label for="entreduasecinco"></label>
+                            <span>Resposta 3</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaNoveMaisDeCincoHoras();setbar(90);setRsico(1);" type="checkbox" value="None" id="maisdecincohoras" name="check" />
+                            <label for="maisdecincohoras"></label>
+                            <span>Resposta 4</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaSete();setbar(80)"> &lt; &lt; Voltar</a><span>
+													</div>
+												</li>
+
+											</ul>
+										</div>
+
+										<div id="pergunta9">
+											<h3>Pergunta 9?</h3>
+											<ul>
+												<li>
+													<div class="quadradoResposta">
+														<input onclick="chamaPerguntaFimSimPerguntaNove(); $('#0002').css('background-color','background-color: #b9cad5;');
+														$('#0003').css('background-color','background-color: #004e74;');;setbar(100);setRsico(1);" type="checkbox" value="None" id="simpergunta9" name="check"  />
+														<label for="simpergunta9"></label>
+														<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaFimNaoPerguntaNove(); $('#0002').css('background-color','background-color: #b9cad5;');
+														$('#0003').css('background-color','background-color: #004e74;');;setbar(100)" type="checkbox" value="None" id="naopergunta9" name="check" />
+                            <label for="naopergunta9"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaOito();  $('#0003').css('background-color','background-color: #b9cad5;');
+														$('#0002').css('background-color','background-color: #004e74;');;setbar(100)"> &lt; &lt; Voltar</a><span>
+														</div>
+													</li>
+												</ul>
+											</div>
+
+											<div id="pergunta10">
+												<h3>Pergunta 10?</h3>
+												<ul>
+													<li>
+														<div class="quadradoResposta">
+															<input onclick="chamaPerguntaOnzeRua();setbar(12)" type="checkbox" value="None" id="rua" name="check"  />
+															<label for="rua"></label>
+															<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaOnzeCentroComercial();setbar(12)" type="checkbox" value="None" id="centrocomercial" name="check" />
+                            <label for="centrocomercial"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaOnzePoligonoIndustrial();setbar(12);setRsico(3);" type="checkbox" value="None" id="poligonoindustrial" name="check" />
+                            <label for="poligonoindustrial"></label>
+                            <span>Resposta 3</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaOnzeEdificio();setbar(12)" type="checkbox" value="None" id="edificio" name="check" />
+                            <label for="edificio"></label>
+                            <span>Resposta 4</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaUm();setbar(1)"> &lt; &lt; Voltar</a><span>
+															</div>
+														</li>
+													</ul>
+												</div>
+
+												<div id="pergunta11">
+													<h3>Pergunta 11?</h3>
+													<ul>
+														<li>
+															<div class="quadradoResposta">
+																<input onclick="chamaPerguntaDozeDentroCidade();setbar(23)" type="checkbox" value="None" id="dentrocidade" name="check"  />
+																<label for="dentrocidade"></label>
+																<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaDozeForaCidade();setbar(23)" type="checkbox" value="None" id="foracidade" name="check" />
+                            <label for="foracidade"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaDez();setbar(12)"> &lt; &lt; Voltar</a><span>
+																</div>
+															</li>
+														</ul>
+													</div>
+
+													<div id="pergunta12">
+														<h3>Pergunta 12?</h3>
+														<ul>
+															<li>
+																<div class="quadradoResposta">
+																	<input onclick="chamaPerguntaTrezeUmFuncionario();setbar(40)" type="checkbox" value="None" id="umfuncionario" name="check"  />
+																	<label for="umfuncionario"></label>
+																	<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaTrezeDoisaCinco();setbar(40)" type="checkbox" value="None" id="doisacinco" name="check" />
+                            <label for="doisacinco"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaTrezeMaisDeCinco();setbar(40)" type="checkbox" value="None" id="maisdecinco" name="check" />
+                            <label for="maisdecinco"></label>
+                            <span>Resposta 3</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaOnze();setbar(23)"> &lt; &lt; Voltar</a><span>
+																	</div>
+																</li>
+															</ul>
+														</div>
+
+														<div id="pergunta13">
+															<h3>Pergunta 13?</h3>
+															<ul>
+																<li>
+																	<div class="quadradoResposta">
+																		<input onclick="chamaPerguntaQuatorzeManha(); $('#0001').css('background-color','background-color: #b9cad5;');
+																		$('#0002').css('background-color','background-color: #004e74;');;setbar(70)" type="checkbox" value="None" id="manha" name="check"  />
+																		<label for="manha"></label>
+																		<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaQuatorzeTarde(); $('#0001').css('background-color','background-color: #b9cad5;');
+																		$('#0002').css('background-color','background-color: #004e74;');;setbar(70)" type="checkbox" value="None" id="tarde" name="check" />
+                            <label for="tarde"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaQuatorzeManhaTarde(); $('#0001').css('background-color','background-color: #b9cad5;');
+																		$('#0002').css('background-color','background-color: #004e74;');;setbar(70)" type="checkbox" value="None" id="manhatarde" name="check" />
+                            <label for="manhatarde"></label>
+                            <span>Resposta 3</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaQuatorzeNoturno(); $('#0001').css('background-color','background-color: #b9cad5;');
+																		$('#0002').css('background-color','background-color: #004e74;');;setbar(70)" type="checkbox" value="None" id="noturno" name="check" />
+                            <label for="noturno"></label>
+                            <span>Resposta 4</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaQuatorzeVinteQuatroHoras(); $('#0001').css('background-color','background-color: #b9cad5;');
+																		$('#0002').css('background-color','background-color: #004e74;');;setbar(70)" type="checkbox" value="None" id="24horas" name="check" />
+                            <label for="24horas"></label>
+                            <span>Resposta 5</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaDoze(); $('#0002').css('background-color','background-color: #b9cad5;');
+																		$('#0001').css('background-color','background-color: #004e74;');;setbar(50)"> &lt; &lt; Voltar</a><span>
+																		</div>
+																	</li>
+																</ul>
+															</div>
+
+															<div id="pergunta14">
+																<h3>Pergunta 14?</h3>
+																<ul>
+																	<li>
+																		<div class="quadradoResposta">
+																			<input onclick="chamaPerguntaQuinzeGrandeValor();setbar(85);setRsico(3);" type="checkbox" value="None" id="grandevalor" name="check"  />
+																			<label for="grandevalor"></label>
+																			<span>Resposta 1</span>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaQuinzeMedioValor();setbar(85);" type="checkbox" value="None" id="mediovalor" name="check" />
+                            <label for="mediovalor"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="chamaPerguntaQuinzeBaixoValor();setbar(85);" type="checkbox" value="None" id="baixovalor" name="check" />
+                            <label for="baixovalor"></label>
+                            <span>Resposta 3</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaTreze();setbar(50)"> &lt; &lt; Voltar</a><span>
+																			</div>
+																		</li>
+																	</ul>
+																</div>
+
+																<div id="pergunta15">
+																	<h3>Pergunta 15?</h3>
+																	<ul>
+																		<li>
+																			<div class="quadradoResposta">
+																				<input onclick="perguntaFimSimQuinze(); $('#0002').css('background-color','background-color: #b9cad5;');
+																				$('#0003').css('background-color','background-color: #004e74;');setbar(100);setRsico(3)" type="checkbox" value="None" id="pergunta15sim" name="check"  />
+																				<label for="pergunta15sim"></label>
+																				<span>Resposta 1</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="quadradoResposta">
+                            <input onclick="perguntaFimNaoQuinze(); $('#0002').css('background-color','background-color: #b9cad5;');
+																				$('#0003').css('background-color','background-color: #004e74;');;setbar(100)" type="checkbox" value="None" id="pergunta15nao" name="check" />
+                            <label for="pergunta15nao"></label>
+                            <span>Resposta 2</span>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <span style="left:50%!important;"><a onclick="chamaPerguntaQuatorze();setbar(100)"> &lt; &lt; Voltar</a><span>
+																				</div>
+																			</li>
+																		</ul>
+																	</div>
+
+																	<div id="perguntaFim">
+																		<h3 style="margin-bottom:5px;">Final do quiz!</h3>
+																		</div>
+
+																	</section><!-- #content end -->
+
+																	<!-- #wrapper end -->
+
+																<!-- External JavaScripts
+																============================================= -->
+																<script src="js/simulador.js"></script>
+																<script type="text/javascript" src="js/jquery.js"></script>
+																<script type="text/javascript" src="js/plugins.js"></script>
+																<!-- Footer Scripts
+																============================================= -->
+																<script type="text/javascript" src="js/functions.js"></script>
+
+															</body>
+															</html>
